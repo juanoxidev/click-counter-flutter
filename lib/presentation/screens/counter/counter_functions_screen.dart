@@ -46,53 +46,61 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: 
           [
-            FloatingActionButton
-                (
-              // hace q el boton sea circular.
-               shape: const StadiumBorder(),
-               onPressed: () {
-                  // actualiza la pantalla con setState
-                  setState(() {
-                  // incrementa el click counter
-                  clickCounter++;      
-                  });
-               }, 
-               child: const Icon(Icons.refresh_outlined),
-                ),
-              
+            CustomButton(
+              icon: Icons.refresh_outlined,
+              onPressed: () {
+                setState(() {
+                  clickCounter = 0;
+                });
+              }),
               const SizedBox(height: 10),
-            
-            FloatingActionButton
-                (
-              // hace q el boton sea circular.
-               shape: const StadiumBorder(),
-               onPressed: () {
-                  // actualiza la pantalla con setState
-                  setState(() {
-                  // incrementa el click counter
-                  clickCounter++;      
-                  });
-               }, 
-               child: const Icon(Icons.plus_one),
-                ),
-              
+              CustomButton(
+              icon: Icons.plus_one,
+              onPressed: () {
+                setState(() {
+                  clickCounter++;
+                });
+                }),
               const SizedBox(height: 10),
               
-              
-              FloatingActionButton
-                (
-               shape: const StadiumBorder(),
-               onPressed: () {
-                  // actualiza la pantalla con setState
-                  setState(() {
-                  // resta el click counter
-                  clickCounter--;      
-                  });
-               }, 
-               child: const Icon(Icons.exposure_minus_1),
-                ),
+              CustomButton(
+                icon:Icons.exposure_minus_1,
+                onPressed: () {
+                setState(() {
+                  clickCounter == 0 ? clickCounter: clickCounter--;
+                });
+                }),
           ],
         ),
       );
+  }
+}
+
+// MODULARIZACION Y REUTILIZACION DE WIDGET PERSONALIZADOS.
+// extraigo el widget que cree y le paso como parametros la funcion onpress y el icon q va a tener.
+class CustomButton extends StatelessWidget {
+
+// declaramos la variable icon
+  final IconData icon;
+// el onpress es del tipo VoidCallback es una funcion q no va a retornar nada, 
+//es opcional puede ser q la mande o no 
+final VoidCallback? onPressed;
+
+// agregamos al constructor el this.onpress y el required this.icon.
+  const CustomButton({
+    super.key, required this.icon, this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton
+        (
+      // hace q el boton sea circular.
+       shape: const StadiumBorder(),
+       onPressed: onPressed,
+       // linkeamos el parametro con el icon del buttom
+        child: Icon(icon),
+      //  child: const Icon(Icons.refresh_outlined),
+        );
   }
 }
